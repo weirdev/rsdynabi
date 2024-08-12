@@ -136,10 +136,9 @@ trait DisplayRsAdapter: Display {
         let idx = Self::to_string_idx();
         let result = arg.call_dyn_fn(idx);
         unsafe {
-            // TODO: CStr here?
-            let result = std::ffi::CString::from_raw(result.arg as *mut i8);
+            // Generator logic will need to support C++ string -> Rust conversion
+            let result = std::ffi::CStr::from_ptr(result.arg as *const i8);
             let fmt_output = write!(f, "{}", result.to_str().unwrap());
-            std::mem::forget(result); // Don't drop
             fmt_output
         }
     }
