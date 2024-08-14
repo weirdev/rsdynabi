@@ -17,7 +17,7 @@ fn main() {
                 // and makes the type specific to the function,
                 // then optimizes away actually storing a value.
                 let dynfns: Box<[extern "C" fn(*mut std::ffi::c_void) -> DynArg]> =
-                    Box::new([extern_display1_impl1]);
+                    Box::new([extern_string_display_impl]);
                 let trait_impls_len = dynfns.len() as size_t;
                 // let dynfns = dynfns.as_ptr();
                 let dynfns = Box::into_raw(dynfns);
@@ -50,20 +50,20 @@ fn main() {
 }
 
 // C++ statically available
-extern "C" fn extern_display1_cleanup_impl(arg: *mut core::ffi::c_void) {
+extern "C" fn extern_string_cleanup_impl(arg: *mut core::ffi::c_void) {
     let arg = arg as *mut i8;
     let _string = unsafe { std::ffi::CString::from_raw(arg) };
     // Drop the string
 }
 
-extern "C" fn extern_display1_impl1(arg: *mut core::ffi::c_void) -> DynArg {
+extern "C" fn extern_string_display_impl(arg: *mut core::ffi::c_void) -> DynArg {
     let arg = arg as *mut String;
     let string = unsafe { &*arg };
     let result = format!("{}", string);
     let result = std::ffi::CString::new(result).unwrap();
     let result = result.into_raw(); // Leak the memory
 
-    let cleanup = &(extern_display1_cleanup_impl as extern "C" fn(*mut core::ffi::c_void));
+    let cleanup = &(extern_string_cleanup_impl as extern "C" fn(*mut core::ffi::c_void));
 
     DynArg {
         arg: result as *mut core::ffi::c_void,
@@ -79,6 +79,8 @@ extern "C" fn extern_val1_cleanup_impl(arg: *mut core::ffi::c_void) {
     // Drop the string
 }
 
+// Rust types
+
 #[repr(C)]
 struct DynArg {
     arg: *mut core::ffi::c_void,
@@ -86,27 +88,6 @@ struct DynArg {
     trait_impls_len: size_t,
     cleanup: *const extern "C" fn(*mut core::ffi::c_void),
 }
-
-// // TODO: Always making the DynArg lifetime static for now,
-// // but in the future we should allow the lifetime to be passed in
-// impl From<ExternDynArg> for DynArg<'static> {
-//     fn from(edynarg: ExternDynArg) -> Self {
-//         DynArg {
-//             arg: edynarg.arg,
-//             trait_impls: unsafe {slice::from_raw_parts(edynarg.trait_impls, edynarg.trait_impls_len as usize)},
-//             cleanup: edynarg.cleanup,
-//         }
-//     }
-// }
-
-// Must not impl copy or clone on this directly
-// Rust Clone/copy would cause double free on drop
-// Clone/copy can be one of the extern trait implementations
-// struct DynArg<'a> {
-//     arg: *mut core::ffi::c_void,
-//     trait_impls: &'a [&'a dyn Fn(*mut core::ffi::c_void) -> DynArg<'a>],
-//     cleanup: &'a dyn Fn(*mut core::ffi::c_void),
-// }
 
 impl<'a> DynArg {
     pub fn call_dyn_fn(&self, idx: usize) -> DynArg {
@@ -128,11 +109,11 @@ impl<'a> Drop for DynArg {
     }
 }
 
-trait DisplayRsAdapter: Display {
+trait DisplayRsAdapter : Display {
     fn to_string_idx() -> usize;
     fn get_dyn_arg(&self) -> &DynArg;
     fn adapt_fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
-        let arg = self.get_dyn_arg();
+        let arg: &DynArg = self.get_dyn_arg();
         let idx = Self::to_string_idx();
         let result = arg.call_dyn_fn(idx);
         unsafe {
@@ -144,7 +125,7 @@ trait DisplayRsAdapter: Display {
     }
 }
 
-impl<'a> Display for GeneratedAdapter1 {
+impl Display for GeneratedAdapter1 {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
         self.adapt_fmt(f)
     }
@@ -157,6 +138,239 @@ struct GeneratedAdapter1 {
 impl DisplayRsAdapter for GeneratedAdapter1 {
     fn to_string_idx() -> usize {
         0
+    }
+
+    fn get_dyn_arg(&self) -> &DynArg {
+        &self.arg
+    }
+}
+
+// "C++" types
+
+struct Matrix {
+    data: Vec<f64>,
+    rows: usize,
+    cols: usize,
+}
+
+struct Matrix3D {
+    data: Vec<f64>,
+    rows: usize,
+    cols: usize,
+    depth: usize,
+}
+
+// C++ interfaces
+
+trait TensorMax {
+    fn tmax(&self) -> f64;
+}
+
+impl Display for Matrix {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
+        write!(f, "Matrix({}, {})", self.rows, self.cols)
+    }
+}
+
+impl TensorMax for Matrix {
+    fn tmax(&self) -> f64 {
+        self.data.iter().cloned().fold(f64::NEG_INFINITY, f64::max)
+    }
+}
+
+impl Display for Matrix3D {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
+        write!(f, "Matrix3D({}, {}, {})", self.rows, self.cols, self.depth)
+    }
+}
+
+impl TensorMax for Matrix3D {
+    fn tmax(&self) -> f64 {
+        self.data.iter().cloned().fold(f64::NEG_INFINITY, f64::max)
+    }
+}
+
+// C++ generated code
+extern "C" fn extern_matrix_cleanup_impl(arg: *mut core::ffi::c_void) {
+    let arg = arg as *mut Matrix;
+    let _box = unsafe { Box::from_raw(arg) };
+    // Drop the box
+}
+
+extern "C" fn extern_matrix_display_impl(arg: *mut core::ffi::c_void) -> DynArg {
+    let arg = arg as *mut Matrix;
+    let matrix = unsafe { &*arg };
+    let result = format!("{}", matrix);
+    let result = std::ffi::CString::new(result).unwrap();
+    let result = result.into_raw(); // Leak the memory
+
+    let cleanup = &(extern_string_cleanup_impl as extern "C" fn(*mut core::ffi::c_void));
+
+    DynArg {
+        arg: result as *mut core::ffi::c_void,
+        trait_impls: ptr::null(),
+        trait_impls_len: 0,
+        cleanup,
+    }
+}
+
+extern "C" fn extern_double_cleanup_impl(arg: *mut core::ffi::c_void) {
+    let arg = arg as *mut f64;
+    let _double = unsafe { Box::from_raw(arg) };
+    // Drop the double
+}
+
+extern "C" fn extern_matrix_tmax_impl(arg: *mut core::ffi::c_void) -> DynArg {
+    let arg = arg as *mut Matrix;
+    let matrix = unsafe { &*arg };
+    let result = matrix.tmax();
+    let result = Box::new(result);
+    let result = Box::into_raw(result); // Leak the memory
+
+    let cleanup = &(extern_double_cleanup_impl as extern "C" fn(*mut core::ffi::c_void));
+
+    DynArg {
+        arg: result as *mut core::ffi::c_void,
+        trait_impls: ptr::null(),
+        trait_impls_len: 0,
+        cleanup,
+    }
+}
+
+impl Into<DynArg> for Box<Matrix> {
+    fn into(self) -> DynArg {
+        let result = Box::into_raw(self);
+
+        // Note: The explicit type is necessary here,
+        // otherwise rust tries to be "helpful"
+        // and makes the type specific to the function,
+        // then optimizes away actually storing a value.
+        let dynfns: Box<[extern "C" fn(*mut std::ffi::c_void) -> DynArg]> =
+            Box::new([extern_matrix_display_impl, extern_matrix_tmax_impl]);
+        let trait_impls_len = dynfns.len() as size_t;
+        // let dynfns = dynfns.as_ptr();
+        let dynfns = Box::into_raw(dynfns);
+        let dynfns = unsafe { (*dynfns).as_ptr() };
+        
+        let cleanup = &(extern_matrix_cleanup_impl as extern "C" fn(*mut core::ffi::c_void));
+
+        DynArg {
+            arg: result as *mut core::ffi::c_void,
+            trait_impls: dynfns,
+            trait_impls_len,
+            cleanup,
+        }
+    }
+}
+
+extern "C" fn extern_matrix3d_cleanup_impl(arg: *mut core::ffi::c_void) {
+    let arg = arg as *mut Matrix3D;
+    let _box = unsafe { Box::from_raw(arg) };
+    // Drop the box
+}
+
+extern "C" fn extern_matrix3d_display_impl(arg: *mut core::ffi::c_void) -> DynArg {
+    let arg = arg as *mut Matrix3D;
+    let matrix = unsafe { &*arg };
+    let result = format!("{}", matrix);
+    let result = std::ffi::CString::new(result).unwrap();
+    let result = result.into_raw(); // Leak the memory
+
+    let cleanup = &(extern_string_cleanup_impl as extern "C" fn(*mut core::ffi::c_void));
+
+    DynArg {
+        arg: result as *mut core::ffi::c_void,
+        trait_impls: ptr::null(),
+        trait_impls_len: 0,
+        cleanup,
+    }
+}
+
+extern "C" fn extern_matrix3d_tmax_impl(arg: *mut core::ffi::c_void) -> DynArg {
+    let arg = arg as *mut Matrix;
+    let matrix = unsafe { &*arg };
+    let result = matrix.tmax();
+    let result = Box::new(result);
+    let result = Box::into_raw(result); // Leak the memory
+
+    let cleanup = &(extern_double_cleanup_impl as extern "C" fn(*mut core::ffi::c_void));
+
+    DynArg {
+        arg: result as *mut core::ffi::c_void,
+        trait_impls: ptr::null(),
+        trait_impls_len: 0,
+        cleanup,
+    }
+}
+
+impl Into<DynArg> for Box<Matrix3D> {
+    fn into(self) -> DynArg {
+        let result = Box::into_raw(self);
+
+        // Note: The explicit type is necessary here,
+        // otherwise rust tries to be "helpful"
+        // and makes the type specific to the function,
+        // then optimizes away actually storing a value.
+        let dynfns: Box<[extern "C" fn(*mut std::ffi::c_void) -> DynArg]> =
+            Box::new([extern_matrix3d_display_impl, extern_matrix3d_tmax_impl]);
+        let trait_impls_len = dynfns.len() as size_t;
+        // let dynfns = dynfns.as_ptr();
+        let dynfns = Box::into_raw(dynfns);
+        let dynfns = unsafe { (*dynfns).as_ptr() };
+        
+        let cleanup = &(extern_matrix3d_cleanup_impl as extern "C" fn(*mut core::ffi::c_void));
+
+        DynArg {
+            arg: result as *mut core::ffi::c_void,
+            trait_impls: dynfns,
+            trait_impls_len,
+            cleanup,
+        }
+    }
+}
+
+// Rust generated code
+
+struct MatrixAdapter {
+    arg: DynArg,
+}
+
+impl Display for MatrixAdapter {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
+        self.adapt_fmt(f)
+    }
+}
+
+impl DisplayRsAdapter for MatrixAdapter {
+    fn to_string_idx() -> usize {
+        0
+    }
+
+    fn get_dyn_arg(&self) -> &DynArg {
+        &self.arg
+    }
+}
+
+trait TensorMaxRsAdapter : TensorMax {
+    fn tmax_idx() -> usize;
+    fn get_dyn_arg(&self) -> &DynArg;
+    fn adapt_tmax(&self) -> f64 {
+        let arg: &DynArg = self.get_dyn_arg();
+        let idx = Self::tmax_idx();
+        let result = arg.call_dyn_fn(idx);
+        unsafe { *(result.arg as *mut f64) }
+    }
+}
+
+impl TensorMax for MatrixAdapter {
+    fn tmax(&self) -> f64 {
+        self.adapt_tmax()
+    }
+}
+
+impl TensorMaxRsAdapter for MatrixAdapter {
+    fn tmax_idx() -> usize {
+        1
     }
 
     fn get_dyn_arg(&self) -> &DynArg {
