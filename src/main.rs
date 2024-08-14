@@ -47,6 +47,10 @@ fn main() {
 
     // Cleanup completed
     println!("Cleanup completed");
+
+    println!("C++ matrix pass test");
+    cpp_matrix_pass_test();
+    println!("C++ matrix pass test completed");
 }
 
 // C++ statically available
@@ -109,7 +113,7 @@ impl<'a> Drop for DynArg {
     }
 }
 
-trait DisplayRsAdapter : Display {
+trait DisplayRsAdapter: Display {
     fn to_string_idx() -> usize;
     fn get_dyn_arg(&self) -> &DynArg;
     fn adapt_fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
@@ -251,7 +255,7 @@ impl Into<DynArg> for Box<Matrix> {
         // let dynfns = dynfns.as_ptr();
         let dynfns = Box::into_raw(dynfns);
         let dynfns = unsafe { (*dynfns).as_ptr() };
-        
+
         let cleanup = &(extern_matrix_cleanup_impl as extern "C" fn(*mut core::ffi::c_void));
 
         DynArg {
@@ -317,7 +321,7 @@ impl Into<DynArg> for Box<Matrix3D> {
         // let dynfns = dynfns.as_ptr();
         let dynfns = Box::into_raw(dynfns);
         let dynfns = unsafe { (*dynfns).as_ptr() };
-        
+
         let cleanup = &(extern_matrix3d_cleanup_impl as extern "C" fn(*mut core::ffi::c_void));
 
         DynArg {
@@ -331,6 +335,8 @@ impl Into<DynArg> for Box<Matrix3D> {
 
 // Rust generated code
 
+// NOTE: This isn't an adapter for matrix the type,
+// it's an adapter for Display+TensorMax in that required order
 struct MatrixAdapter {
     arg: DynArg,
 }
@@ -351,7 +357,7 @@ impl DisplayRsAdapter for MatrixAdapter {
     }
 }
 
-trait TensorMaxRsAdapter : TensorMax {
+trait TensorMaxRsAdapter: TensorMax {
     fn tmax_idx() -> usize;
     fn get_dyn_arg(&self) -> &DynArg;
     fn adapt_tmax(&self) -> f64 {
@@ -376,4 +382,47 @@ impl TensorMaxRsAdapter for MatrixAdapter {
     fn get_dyn_arg(&self) -> &DynArg {
         &self.arg
     }
+}
+
+// C++ example usage
+
+fn cpp_matrix_pass_test() {
+    let matrix_small = Matrix {
+        data: vec![1.0, 2.0, 3.0, 4.0],
+        rows: 2,
+        cols: 2,
+    };
+    let matrix_small = Box::new(matrix_small);
+    let matrix_small: DynArg = matrix_small.into();
+
+    let matrix3d = Matrix3D {
+        data: vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0],
+        rows: 2,
+        cols: 2,
+        depth: 2,
+    };
+    let matrix3d = Box::new(matrix3d);
+    let matrix3d: DynArg = matrix3d.into();
+
+    let matrix_large = Matrix {
+        data: vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0],
+        rows: 2,
+        cols: 4,
+    };
+    let matrix_large = Box::new(matrix_large);
+    let matrix_large: DynArg = matrix_large.into();
+
+    rust_matrix_pass_test(vec![matrix_small, matrix3d, matrix_large]);
+}
+
+// Rust receiver (ignoring how we would model the Vec for now)
+
+fn rust_matrix_pass_test(tensors: Vec<DynArg>) {
+    tensors
+        .into_iter()
+        .map(|a| MatrixAdapter { arg: a })
+        .for_each(|a| {
+            println!("Matrix: {}", a);
+            println!("Matrix tmax: {}", a.tmax());
+        });
 }
