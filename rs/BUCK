@@ -4,5 +4,5 @@ rust_binary(
         ["src/**/*.rs"],
     ),
     crate_root = "src/main.rs",
-    deps = ["//third-party:libc"],
+    deps = ["//third-party:libc", "//cpp:ManualShimCppClass1"],
 )

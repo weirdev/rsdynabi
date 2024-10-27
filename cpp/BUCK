@@ -15,8 +15,9 @@ cxx_library(
 
 cxx_library(
     name = "ManualShimCppClass1",
-    srcs = [],
+    srcs = ["ManualShimCppClass1.cpp"],
     headers = ["ManualShimCppClass1.hpp"],
     link_style = "static",
     deps = [":CppClass1"],
+    visibility = ["PUBLIC"],
 )
