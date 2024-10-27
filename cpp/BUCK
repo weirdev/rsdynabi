@@ -21,3 +21,54 @@ cxx_library(
     deps = [":CppClass1"],
     visibility = ["PUBLIC"],
 )
+
+cxx_library(
+    name = "IMax",
+    srcs = [],
+    headers = ["IMax.hpp"],
+    link_style = "static",
+    deps = [],
+)
+
+cxx_library(
+    name = "IMin",
+    srcs = [],
+    headers = ["IMin.hpp"],
+    link_style = "static",
+    deps = [],
+)
+
+cxx_library(
+    name = "CppClass2",
+    srcs = [],
+    headers = ["CppClass2.hpp"],
+    link_style = "static",
+    deps = [],
+)
+
+cxx_library(
+    name = "ManualShimCppClass2",
+    srcs = ["ManualShimCppClass2.cpp"],
+    headers = ["ManualShimCppClass2.hpp"],
+    link_style = "static",
+    deps = [":CppClass2"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimIMax",
+    srcs = ["ManualShimIMax.cpp"],
+    headers = ["ManualShimIMax.hpp"],
+    link_style = "static",
+    deps = [":IMax"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimIMin",
+    srcs = ["ManualShimIMin.cpp"],
+    headers = ["ManualShimIMin.hpp"],
+    link_style = "static",
+    deps = [":IMin"],
+    visibility = ["PUBLIC"],
+)

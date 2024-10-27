@@ -8,5 +8,9 @@
             "filePath": "cpp",
             "group": "Default"
         }
-    ]
+    ],
+    "files.associations": {
+        "xstring": "cpp",
+        "limits": "cpp"
+    }
 }
