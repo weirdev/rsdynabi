@@ -1,0 +1,12 @@
+{
+    "favorites.resources": [
+        {
+            "filePath": "rs",
+            "group": "Default"
+        },
+        {
+            "filePath": "cpp",
+            "group": "Default"
+        }
+    ]
+}

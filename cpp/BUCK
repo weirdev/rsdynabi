@@ -2,5 +2,13 @@ cxx_binary(
     name = "main",
     srcs = ["main.cpp"],
     link_style = "static",
+    deps = [":CppClass1"],
+)
+
+cxx_library(
+    name = "CppClass1",
+    srcs = [],
+    headers = ["CppClass1.hpp"],
+    link_style = "static",
     deps = [],
 )
