@@ -12,3 +12,11 @@ cxx_library(
     link_style = "static",
     deps = [],
 )
+
+cxx_library(
+    name = "ManualShimCppClass1",
+    srcs = [],
+    headers = ["ManualShimCppClass1.hpp"],
+    link_style = "static",
+    deps = [":CppClass1"],
+)
