@@ -6,4 +6,6 @@ extern "C" void CppClass2___destructor__(CppClass2* cppCls2);
 
 extern "C" int32_t CppClass2_getField1(const CppClass2* cppCls2);
 
-// Would have the non-virtual versions of min and max here, but leaving out for testing
+extern "C" int32_t CppClass2_max(const CppClass2* cppCls2);
+
+extern "C" int32_t CppClass2_min(const CppClass2* cppCls2);

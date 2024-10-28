@@ -1,6 +1,4 @@
 use crate::manual_shim_cpp_class2::*;
-use crate::manual_shim_imax;
-use crate::manual_shim_imin;
 use crate::manual_interop_imax;
 use crate::manual_interop_imin;
 
@@ -30,12 +28,12 @@ impl Drop for CppClass2Adapter {
 impl manual_interop_imax::IMax for CppClass2Adapter {
     fn max(&self) -> i32 {
         // Should fail. Needs an IMax pointer not pointer to concrete class
-        unsafe { manual_shim_imax::IMax_max(self.cpp_class2) }
+        unsafe { CppClass2_max(self.cpp_class2) }
     }
 }
 
 impl manual_interop_imin::IMin for CppClass2Adapter {
     fn min(&self) -> i32 {
-        unsafe { manual_shim_imin::IMin_min(self.cpp_class2) }
+        unsafe { CppClass2_min(self.cpp_class2) }
     }
 } 

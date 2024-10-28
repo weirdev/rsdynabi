@@ -11,3 +11,11 @@ extern "C" void CppClass2___destructor__(CppClass2* cppCls2) {
 extern "C" int32_t CppClass2_getField1(const CppClass2* cppCls2) {
     return cppCls2->getField1();
 }
+
+extern "C" int32_t CppClass2_max(const CppClass2* cppCls2) {
+    return cppCls2->max();
+}
+
+extern "C" int32_t CppClass2_min(const CppClass2* cppCls2) {
+    return cppCls2->min();
+}
