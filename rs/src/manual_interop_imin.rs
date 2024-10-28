@@ -14,6 +14,12 @@ impl IMin for IMinAdapter {
     }
 }
 
+impl Drop for IMinAdapter {
+    fn drop(&mut self) {
+        unsafe { IMin___destructor__(self.ptr) }
+    }
+}
+
 // trait IMinAdapterTrait: IMin {
 //     fn index() -> usize;
 //     fn get_dyn_arg(&self) -> &ldyn::DynArg;

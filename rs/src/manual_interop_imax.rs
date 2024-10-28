@@ -14,6 +14,12 @@ impl IMax for IMaxAdapter {
     }
 }
 
+impl Drop for IMaxAdapter {
+    fn drop(&mut self) {
+        unsafe { IMax___destructor__(self.ptr) }
+    }
+}
+
 // trait IMaxAdapterTrait: IMax {
 //     fn index() -> usize;
 //     fn get_dyn_arg(&self) -> &ldyn::DynArg;
