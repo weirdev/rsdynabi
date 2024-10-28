@@ -55,6 +55,14 @@ cxx_library(
 )
 
 cxx_library(
+    name = "CppClass4",
+    srcs = [],
+    headers = ["CppClass4.hpp"],
+    link_style = "static",
+    deps = [],
+)
+
+cxx_library(
     name = "ManualShimCppClass2",
     srcs = ["ManualShimCppClass2.cpp"],
     headers = ["ManualShimCppClass2.hpp"],
@@ -69,6 +77,15 @@ cxx_library(
     headers = ["ManualShimCppClass3.hpp"],
     link_style = "static",
     deps = [":CppClass3"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimCppClass4",
+    srcs = ["ManualShimCppClass4.cpp"],
+    headers = ["ManualShimCppClass4.hpp"],
+    link_style = "static",
+    deps = [":CppClass4"],
     visibility = ["PUBLIC"],
 )
 
