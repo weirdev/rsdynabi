@@ -47,11 +47,28 @@ cxx_library(
 )
 
 cxx_library(
+    name = "CppClass3",
+    srcs = [],
+    headers = ["CppClass3.hpp"],
+    link_style = "static",
+    deps = [],
+)
+
+cxx_library(
     name = "ManualShimCppClass2",
     srcs = ["ManualShimCppClass2.cpp"],
     headers = ["ManualShimCppClass2.hpp"],
     link_style = "static",
     deps = [":CppClass2"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimCppClass3",
+    srcs = ["ManualShimCppClass3.cpp"],
+    headers = ["ManualShimCppClass3.hpp"],
+    link_style = "static",
+    deps = [":CppClass3"],
     visibility = ["PUBLIC"],
 )
 
@@ -70,5 +87,22 @@ cxx_library(
     headers = ["ManualShimIMin.hpp"],
     link_style = "static",
     deps = [":IMin"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "MinMaxFuncts",
+    srcs = [],
+    headers = ["MinMaxFuncts.hpp"],
+    link_style = "static",
+    deps = [":IMax", ":IMin", ":CppClass2", ":CppClass3"],
+)
+
+cxx_library(
+    name = "ManualShimMinMaxFuncts",
+    srcs = ["ManualShimMinMaxFuncts.cpp"],
+    headers = ["ManualShimMinMaxFuncts.hpp"],
+    link_style = "static",
+    deps = [":MinMaxFuncts"],
     visibility = ["PUBLIC"],
 )

@@ -1,7 +1,17 @@
-use crate::ldyn;
+use crate::manual_shim_imin::*;
 
 pub trait IMin {
     fn min(&self) -> i32;
+}
+
+pub struct IMinAdapter {
+    pub ptr: *mut ::libc::c_void,
+}
+
+impl IMin for IMinAdapter {
+    fn min(&self) -> i32 {
+        unsafe { IMin_min(self.ptr) }
+    }
 }
 
 // trait IMinAdapterTrait: IMin {

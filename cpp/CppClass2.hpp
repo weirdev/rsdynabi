@@ -1,6 +1,4 @@
-
-#include <iostream>
-#include <string>
+#pragma once
 
 #include "IMax.hpp"
 #include "IMin.hpp"

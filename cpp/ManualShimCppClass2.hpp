@@ -1,3 +1,5 @@
+#pragma once
+
 #include "CppClass2.hpp"
 
 extern "C" CppClass2* CppClass2___constructor__(int32_t field1, int32_t field2, int32_t field3);

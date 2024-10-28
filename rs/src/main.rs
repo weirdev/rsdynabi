@@ -11,6 +11,8 @@ mod manual_interop_imin;
 mod manual_shim_cpp_class2;
 mod manual_interop_cpp_class2;
 mod rs_cpp_manual_interop_example2;
+mod manual_shim_min_max_functs;
+mod manual_interop_min_max_functs;
 
 use rs_only_example::*;
 use rs_cpp_manual_shim_example::*;

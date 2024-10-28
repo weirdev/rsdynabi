@@ -10,5 +10,6 @@ rust_binary(
         "//cpp:ManualShimCppClass2",
         "//cpp:ManualShimIMax",
         "//cpp:ManualShimIMin",
+        "//cpp:ManualShimMinMaxFuncts",
     ],
 )

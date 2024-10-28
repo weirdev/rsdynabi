@@ -1,7 +1,17 @@
-use crate::ldyn;
+use crate::manual_shim_imax::*;
 
 pub trait IMax {
     fn max(&self) -> i32;
+}
+
+pub struct IMaxAdapter {
+    pub ptr: *mut ::libc::c_void,
+}
+
+impl IMax for IMaxAdapter {
+    fn max(&self) -> i32 {
+        unsafe { IMax_max(self.ptr) }
+    }
 }
 
 // trait IMaxAdapterTrait: IMax {
