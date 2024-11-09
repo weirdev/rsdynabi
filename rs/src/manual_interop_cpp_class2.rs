@@ -27,7 +27,6 @@ impl Drop for CppClass2Adapter {
 
 impl manual_interop_imax::IMax for CppClass2Adapter {
     fn max(&self) -> i32 {
-        // Should fail. Needs an IMax pointer not pointer to concrete class
         unsafe { CppClass2_max(self.cpp_class2) }
     }
 }
