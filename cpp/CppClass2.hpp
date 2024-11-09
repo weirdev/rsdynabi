@@ -1,9 +1,8 @@
 #pragma once
 
-#include "IMax.hpp"
-#include "IMin.hpp"
+#include "IMinAndMax.hpp"
 
-class CppClass2 : public IMax, public IMin {
+class CppClass2 : public IMinAndMax {
     public:
         int field1;
         int field2;
