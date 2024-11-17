@@ -1,4 +1,9 @@
-use crate::{manual_interop_cpp_class2::*, manual_interop_imax::IMax, manual_interop_imin::IMin, manual_interop_min_max_functs::{getMaxable, getMinnable}};
+use crate::{
+    manual_interop_cpp_class2::*,
+    manual_interop_imax::IMax,
+    manual_interop_imin::IMin,
+    manual_interop_min_max_functs::{getMaxable, getMinMaxable, getMinnable},
+};
 
 // Static calls to interface method
 pub fn run_rs_cpp_manual_interop_example2_test() {
@@ -16,4 +21,10 @@ pub fn run_rs_cpp_manual_interop_example2_test() {
     let maxable = getMaxable();
     let max = maxable.max();
     println!("Maxable max: {}", max);
+
+    let min_and_maxable = getMinMaxable();
+    let min = min_and_maxable.min();
+    println!("MinMaxable min: {}", min);
+    let max = min_and_maxable.max();
+    println!("MinMaxable max: {}", max);
 }

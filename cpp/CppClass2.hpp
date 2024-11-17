@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 #include "IMinAndMax.hpp"
 
 class CppClass2 : public IMinAndMax {

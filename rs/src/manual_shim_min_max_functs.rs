@@ -4,4 +4,6 @@ extern "C" {
     pub fn MinMaxFuncts_getMinnable() -> *mut c_void;
 
     pub fn MinMaxFuncts_getMaxable() -> *mut c_void;
+
+    pub fn MinMaxFuncts_getMinMaxable() -> *mut c_void;
 }

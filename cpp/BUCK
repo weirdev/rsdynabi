@@ -39,6 +39,14 @@ cxx_library(
 )
 
 cxx_library(
+    name = "IMinAndMax",
+    srcs = [],
+    headers = ["IMinAndMax.hpp"],
+    link_style = "static",
+    deps = [":IMax", ":IMin"],
+)
+
+cxx_library(
     name = "CppClass2",
     srcs = [],
     headers = ["CppClass2.hpp"],
@@ -104,6 +112,15 @@ cxx_library(
     headers = ["ManualShimIMin.hpp"],
     link_style = "static",
     deps = [":IMin"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimIMinAndMax",
+    srcs = ["ManualShimIMinAndMax.cpp"],
+    headers = ["ManualShimIMinAndMax.hpp"],
+    link_style = "static",
+    deps = [":IMinAndMax"],
     visibility = ["PUBLIC"],
 )
 
