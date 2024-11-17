@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CppClass4.hpp"
+#include "ManualShimCppClass4.hpp"
 
 extern "C" CppClass4* CppClass4___constructor__(int32_t field1, int32_t field2, int32_t field3, int32_t field4) {
     return new CppClass4(field1, field2, field3, field4);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CppClass1.hpp"
+#include "cpp/CppClass1.hpp"
 
 extern "C" CppClass1* CppClass1___constructor__(int32_t field1);
 

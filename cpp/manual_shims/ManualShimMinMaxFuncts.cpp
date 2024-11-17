@@ -1,6 +1,6 @@
 #include "ManualShimMinMaxFuncts.hpp"
 
-#include "MinMaxFuncts.hpp"
+#include "cpp/MinMaxFuncts.hpp"
 
 extern "C" IMin* MinMaxFuncts_getMinnable() {
     return getMinnable();

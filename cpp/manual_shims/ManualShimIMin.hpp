@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IMin.hpp"
+#include "cpp/IMin.hpp"
 
 extern "C" void IMin___destructor__(IMin* iMin);
 

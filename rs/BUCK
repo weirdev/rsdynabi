@@ -6,11 +6,11 @@ rust_binary(
     crate_root = "src/main.rs",
     deps = [
         "//third-party:libc", 
-        "//cpp:ManualShimCppClass1", 
-        "//cpp:ManualShimCppClass2",
-        "//cpp:ManualShimIMax",
-        "//cpp:ManualShimIMin",
-        "//cpp:ManualShimIMinAndMax",
-        "//cpp:ManualShimMinMaxFuncts",
+        "//cpp/manual_shims:ManualShimCppClass1", 
+        "//cpp/manual_shims:ManualShimCppClass2",
+        "//cpp/manual_shims:ManualShimIMax",
+        "//cpp/manual_shims:ManualShimIMin",
+        "//cpp/manual_shims:ManualShimIMinAndMax",
+        "//cpp/manual_shims:ManualShimMinMaxFuncts",
     ],
 )

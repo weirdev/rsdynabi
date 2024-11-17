@@ -1,4 +1,4 @@
-#include "CppClass3.hpp"
+#include "ManualShimCppClass3.hpp"
 
 extern "C" CppClass3* CppClass3___constructor__(int32_t start, int32_t end) {
     return new CppClass3(start, end);

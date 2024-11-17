@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IMax.hpp"
+#include "cpp/IMax.hpp"
 
 extern "C" void IMax___destructor__(IMax* iMax);
 

@@ -8,135 +8,78 @@ cxx_binary(
 cxx_library(
     name = "CppClass1",
     srcs = [],
-    headers = ["CppClass1.hpp"],
+    exported_headers = ["CppClass1.hpp"],
     link_style = "static",
     deps = [],
-)
-
-cxx_library(
-    name = "ManualShimCppClass1",
-    srcs = ["ManualShimCppClass1.cpp"],
-    headers = ["ManualShimCppClass1.hpp"],
-    link_style = "static",
-    deps = [":CppClass1"],
     visibility = ["PUBLIC"],
 )
 
 cxx_library(
     name = "IMax",
     srcs = [],
-    headers = ["IMax.hpp"],
+    exported_headers = ["IMax.hpp"],
     link_style = "static",
     deps = [],
+    visibility = ["PUBLIC"],
 )
 
 cxx_library(
     name = "IMin",
     srcs = [],
-    headers = ["IMin.hpp"],
+    exported_headers = ["IMin.hpp"],
     link_style = "static",
     deps = [],
+    visibility = ["PUBLIC"],
 )
 
 cxx_library(
     name = "IMinAndMax",
     srcs = [],
-    headers = ["IMinAndMax.hpp"],
+    exported_headers = ["IMinAndMax.hpp", "IMax.hpp", "IMin.hpp"],
     link_style = "static",
     deps = [":IMax", ":IMin"],
+    visibility = ["PUBLIC"],
 )
 
 cxx_library(
     name = "CppClass2",
     srcs = [],
-    headers = ["CppClass2.hpp"],
-    link_style = "static",
-    deps = [],
-)
-
-cxx_library(
-    name = "CppClass3",
-    srcs = [],
-    headers = ["CppClass3.hpp"],
-    link_style = "static",
-    deps = [],
-)
-
-cxx_library(
-    name = "CppClass4",
-    srcs = [],
-    headers = ["CppClass4.hpp"],
-    link_style = "static",
-    deps = [],
-)
-
-cxx_library(
-    name = "ManualShimCppClass2",
-    srcs = ["ManualShimCppClass2.cpp"],
-    headers = ["ManualShimCppClass2.hpp"],
-    link_style = "static",
-    deps = [":CppClass2"],
-    visibility = ["PUBLIC"],
-)
-
-cxx_library(
-    name = "ManualShimCppClass3",
-    srcs = ["ManualShimCppClass3.cpp"],
-    headers = ["ManualShimCppClass3.hpp"],
-    link_style = "static",
-    deps = [":CppClass3"],
-    visibility = ["PUBLIC"],
-)
-
-cxx_library(
-    name = "ManualShimCppClass4",
-    srcs = ["ManualShimCppClass4.cpp"],
-    headers = ["ManualShimCppClass4.hpp"],
-    link_style = "static",
-    deps = [":CppClass4"],
-    visibility = ["PUBLIC"],
-)
-
-cxx_library(
-    name = "ManualShimIMax",
-    srcs = ["ManualShimIMax.cpp"],
-    headers = ["ManualShimIMax.hpp"],
-    link_style = "static",
-    deps = [":IMax"],
-    visibility = ["PUBLIC"],
-)
-
-cxx_library(
-    name = "ManualShimIMin",
-    srcs = ["ManualShimIMin.cpp"],
-    headers = ["ManualShimIMin.hpp"],
-    link_style = "static",
-    deps = [":IMin"],
-    visibility = ["PUBLIC"],
-)
-
-cxx_library(
-    name = "ManualShimIMinAndMax",
-    srcs = ["ManualShimIMinAndMax.cpp"],
-    headers = ["ManualShimIMinAndMax.hpp"],
+    exported_headers = [
+        "CppClass2.hpp", 
+        "IMinAndMax.hpp",
+        # TODO: These two below should be exported by IMinAndMax
+        "IMax.hpp", 
+        "IMin.hpp"
+    ],
     link_style = "static",
     deps = [":IMinAndMax"],
     visibility = ["PUBLIC"],
 )
 
 cxx_library(
-    name = "MinMaxFuncts",
+    name = "CppClass3",
     srcs = [],
-    headers = ["MinMaxFuncts.hpp"],
+    exported_headers = ["CppClass3.hpp", "IMax.hpp", "IMin.hpp"],
     link_style = "static",
-    deps = [":IMax", ":IMin", ":CppClass2", ":CppClass3"],
+    deps = [],
+    visibility = ["PUBLIC"],
 )
 
 cxx_library(
-    name = "ManualShimMinMaxFuncts",
-    srcs = ["ManualShimMinMaxFuncts.cpp"],
-    headers = ["ManualShimMinMaxFuncts.hpp"],
+    name = "CppClass4",
+    srcs = [],
+    headers = [],
+    exported_headers = ["CppClass2.hpp", "CppClass4.hpp", "IMinAndMax.hpp", "IMax.hpp", "IMin.hpp"],
     link_style = "static",
-    deps = [":MinMaxFuncts"],
+    deps = [],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "MinMaxFuncts",
+    srcs = [],
+    exported_headers = ["MinMaxFuncts.hpp", "IMinAndMax.hpp", "IMax.hpp", "IMin.hpp", "CppClass2.hpp", "CppClass3.hpp"],
+    link_style = "static",
+    deps = [":IMax", ":IMin", ":CppClass2", ":CppClass3", ":IMinAndMax"],
     visibility = ["PUBLIC"],
 )

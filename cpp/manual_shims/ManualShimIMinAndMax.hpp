@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IMinAndMax.hpp"
+#include "cpp/IMinAndMax.hpp"
 
 extern "C" void IMinAndMax___destructor__(IMinAndMax* iMinAndMax);
 

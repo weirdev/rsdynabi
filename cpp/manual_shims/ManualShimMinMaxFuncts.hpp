@@ -1,8 +1,8 @@
 #pragma once
 
-#include "IMax.hpp"
-#include "IMin.hpp"
-#include "IMinAndMax.hpp"
+#include "cpp/IMax.hpp"
+#include "cpp/IMin.hpp"
+#include "cpp/IMinAndMax.hpp"
 
 extern "C" IMin* MinMaxFuncts_getMinnable();
 

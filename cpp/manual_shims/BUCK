@@ -1,0 +1,71 @@
+cxx_library(
+    name = "ManualShimCppClass1",
+    srcs = ["ManualShimCppClass1.cpp"],
+    headers = ["ManualShimCppClass1.hpp"],
+    link_style = "static",
+    deps = ["//cpp:CppClass1"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimCppClass2",
+    srcs = ["ManualShimCppClass2.cpp"],
+    headers = ["ManualShimCppClass2.hpp"],
+    link_style = "static",
+    deps = ["//cpp:CppClass2"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimCppClass3",
+    srcs = ["ManualShimCppClass3.cpp"],
+    headers = ["ManualShimCppClass3.hpp"],
+    link_style = "static",
+    deps = ["//cpp:CppClass3"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimCppClass4",
+    srcs = ["ManualShimCppClass4.cpp"],
+    headers = ["ManualShimCppClass4.hpp"],
+    link_style = "static",
+    deps = ["//cpp:CppClass4"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimIMax",
+    srcs = ["ManualShimIMax.cpp"],
+    headers = ["ManualShimIMax.hpp"],
+    link_style = "static",
+    deps = ["//cpp:IMax"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimIMin",
+    srcs = ["ManualShimIMin.cpp"],
+    headers = ["ManualShimIMin.hpp"],
+    link_style = "static",
+    deps = ["//cpp:IMin"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimIMinAndMax",
+    srcs = ["ManualShimIMinAndMax.cpp"],
+    headers = ["ManualShimIMinAndMax.hpp"],
+    link_style = "static",
+    deps = ["//cpp:IMinAndMax"],
+    visibility = ["PUBLIC"],
+)
+
+cxx_library(
+    name = "ManualShimMinMaxFuncts",
+    srcs = ["ManualShimMinMaxFuncts.cpp"],
+    headers = ["ManualShimMinMaxFuncts.hpp"],
+    link_style = "static",
+    deps = ["//cpp:MinMaxFuncts"],
+    visibility = ["PUBLIC"],
+)
