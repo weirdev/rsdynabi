@@ -4,8 +4,7 @@ mod cpp_spec;
 use cpp_gen::CppHeaderGen;
 use cpp_spec::{
     CppClassDecl, CppConstructorDeclOrDef, CppConstructorDef, CppConstructorVarInit, CppHeaderDecl,
-    CppMethodDecl, CppMethodDeclOrDef, CppMethodDef, CppRefSpecifier, CppTypeSpecifier,
-    CppVariableDecl,
+    CppMethodDeclOrDef, CppMethodDef, CppRefSpecifier, CppTypeSpecifier, CppVariableDecl,
 };
 
 fn gen_cpp_class1_header() {
@@ -64,7 +63,7 @@ fn gen_cpp_class1_header() {
         classes: vec![class1],
     };
 
-    println!("{}", header.gen_cpp_header());
+    println!("{}", header.gen_cpp_header(0));
 }
 
 fn main() {
