@@ -12,6 +12,10 @@
 ### C++
   buck run cpp:main
 
+### ABI Generation
+  buck run abigen:main
+  buck build abigen:generate_cpp
+
 
 ## In Progress
 - No usage of dyn args yet

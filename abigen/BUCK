@@ -8,3 +8,12 @@ rust_binary(
         "//third-party:libc",
     ],
 )
+
+# https://buck.build/rule/genrule.html
+genrule(
+  name = 'generate_cpp',
+  srcs = [],
+  bash = '$(exe //abigen:main) > $OUT',
+  cmd_exe = '$(exe //abigen:main) > %OUT%',
+  out = 'CppClass1.hpp',
+)

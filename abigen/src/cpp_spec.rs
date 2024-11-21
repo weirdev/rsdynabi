@@ -124,6 +124,8 @@ impl CppHeaderGen for CppClassDecl {
             ));
             header.push_str("\n");
         }
+        header.push_str(&" ".repeat(indent));
+        header.push_str("};");
         header
     }
 }

@@ -67,6 +67,5 @@ fn gen_cpp_class1_header() {
 }
 
 fn main() {
-    println!("Generating bindings...");
     gen_cpp_class1_header();
 }
